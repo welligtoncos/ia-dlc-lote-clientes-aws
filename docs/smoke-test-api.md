@@ -2,6 +2,8 @@
 
 Guia manual para validar API + worker com Docker Compose.
 
+Diagrama do fluxo assíncrono: [`fluxo-ingerir-clientes.md`](fluxo-ingerir-clientes.md).
+
 ## Pré-requisitos
 
 ```bash

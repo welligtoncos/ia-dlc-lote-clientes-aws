@@ -538,3 +538,11 @@
 **Context**: OPERATIONS — placeholder; fim do ciclo Construction
 
 ---
+
+## Documentação — fluxo Celery
+**Timestamp**: 2026-08-12T04:25:30Z
+**User Input**: "adicione esse desenho na documentação"
+**AI Response**: Criado docs/fluxo-ingerir-clientes.md (mermaid + ASCII); links no README e smoke-test-api.md.
+**Context**: docs — diagrama execução ingerir_clientes
+
+---

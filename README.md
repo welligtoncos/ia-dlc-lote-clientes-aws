@@ -15,6 +15,10 @@ docker compose up -d --build
 curl http://localhost:8000/health
 ```
 
+## Fluxo da task Celery
+
+Diagrama API → fila → worker: [`docs/fluxo-ingerir-clientes.md`](docs/fluxo-ingerir-clientes.md)
+
 ## Smoke test (ciclo completo)
 
 Guia: [`docs/smoke-test-api.md`](docs/smoke-test-api.md)
