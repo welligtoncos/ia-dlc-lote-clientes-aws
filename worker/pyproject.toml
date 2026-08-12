@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lote-worker"
+version = "0.1.0"
+description = "Worker Celery de validacao de lotes de clientes"
+requires-python = ">=3.12"
+dependencies = [
+  "lote-shared",
+  "celery[redis]>=5.4",
+  "pydantic-settings>=2.0",
+  "redis>=5.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+lote-shared = { path = "../libs", editable = true }
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "hypothesis>=6.100"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "../libs/src"]
+testpaths = ["tests"]

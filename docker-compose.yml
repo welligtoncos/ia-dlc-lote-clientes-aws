@@ -42,11 +42,24 @@ services:
       valkey:
         condition: service_started
 
-  # Placeholder — implementacao completa na unit-worker-validacao
   worker:
-    image: valkey/valkey:8
-    profiles: ["worker-real"]
-    command: ["echo", "substituir pelo lote-worker"]
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    command: celery -A lote_worker.celery_app worker --loglevel=INFO --concurrency=2
+    environment:
+      DATABASE_URL: mysql+pymysql://lote:lote@mysql:3306/lote
+      CELERY_BROKER_URL: redis://valkey:6379/0
+      CACHE_URL: redis://valkey:6379/1
+      STORAGE_PATH: /data/lotes
+      LOG_LEVEL: INFO
+    volumes:
+      - lotes_files:/data/lotes
+    depends_on:
+      mysql:
+        condition: service_healthy
+      valkey:
+        condition: service_started
 
 volumes:
   mysql_data:

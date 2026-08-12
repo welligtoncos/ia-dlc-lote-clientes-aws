@@ -350,3 +350,158 @@
 **Context**: CONSTRUCTION — unit-dominio-api — documentação de smoke test manual pós-upload
 
 ---
+
+## Commit + push (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:45:00Z
+**User Input**: "faça o comentario detalhado e push"
+**AI Response**: Commit 3af234b feat(construction) unit-dominio-api; push origin/main.
+**Context**: CONSTRUCTION — unit-dominio-api code + docs
+
+---
+
+## Code Generation Approved → Functional Design (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:45:30Z
+**User Input**: "Continuar para o Próximo Estágio"
+**AI Response**: Code Generation unit-dominio-api APPROVED. Iniciado Functional Design unit-worker-validacao: plano + questions Q1–Q9 (CPF máscara, linhas em branco, cabeçalho, detalhe erros, idempotência, retry zero, PROCESSANDO, BOM, PBT). Aguardando respostas.
+**Context**: CONSTRUCTION — transition to unit-worker-validacao Functional Design
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:45:30Z
+**Prompt**: Responder unit-worker-validacao-functional-design-questions.md (Q1–Q9)
+
+---
+
+## Functional Design — Answers + Artifacts (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:48:30Z
+**User Input**: "pronto"
+**AI Response**: Respostas Q1–Q6=A, Q7=B, Q8=A, Q9=A. Gerados business-logic-model, business-rules, domain-entities com P-VAL-01..07. PORTÃO aprovação FD → NFR Requirements.
+**Context**: CONSTRUCTION — Functional Design unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:49:00Z
+**Prompt**: Solicitar Alterações / Continuar para NFR Requirements
+
+### Extension Compliance
+- PBT-01: Compliant (P-VAL-01..07)
+- Security/Resiliency: N/A
+
+---
+
+## Functional Design Approved → NFR Requirements (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:50:30Z
+**User Input**: "Continuar para o Próximo Estágio"
+**AI Response**: FD APPROVED. Iniciado NFR Requirements: plano + questions Q1–Q8 (SLO processamento, concurrency, csv/pandas, logs, time limits, teto linhas, stack, testes). Aguardando respostas.
+**Context**: CONSTRUCTION — NFR Requirements unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:50:30Z
+**Prompt**: Responder unit-worker-validacao-nfr-requirements-questions.md (Q1–Q8)
+
+---
+
+## NFR Requirements — Answers + Artifacts (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:52:30Z
+**User Input**: "pronto"
+**AI Response**: Respostas Q1=A, Q2=B, Q3–Q8=A. Gerados nfr-requirements.md e tech-stack-decisions.md (csv stdlib, concurrency=2, sem result backend, PBT+integração leve). PORTÃO → NFR Design.
+**Context**: CONSTRUCTION — NFR Requirements unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:53:00Z
+**Prompt**: Solicitar Alterações / Continuar para NFR Design
+
+### Extension Compliance
+- PBT: Compliant (NFR-TEST-W02)
+- Security/Resiliency: N/A
+
+---
+
+## NFR Requirements Approved → NFR Design (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:53:30Z
+**User Input**: "Continuar para o Próximo Estágio"
+**AI Response**: NFR Requirements APPROVED. Iniciado NFR Design: plano + questions Q1–Q7 (Celery retry, acks_late/prefetch, update final, Settings fail-fast, componentes lógicos, invalidação cache Valkey, correlação task_id). Aguardando respostas.
+**Context**: CONSTRUCTION — NFR Design unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:53:30Z
+**Prompt**: Responder unit-worker-validacao-nfr-design-questions.md (Q1–Q7)
+
+---
+
+## NFR Design — Answers + Artifacts (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:55:30Z
+**User Input**: "pronto"
+**AI Response**: Respostas Q1–Q7=A. Gerados nfr-design-patterns.md e logical-components.md (autoretry, acks_late, write-once, fail-fast, CacheInvalidator Valkey DB1, logs task_id). PORTÃO → Infrastructure Design.
+**Context**: CONSTRUCTION — NFR Design unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:56:00Z
+**Prompt**: Solicitar Alterações / Continuar para Infrastructure Design
+
+### Extension Compliance
+- PBT: N/A neste estágio
+- Security/Resiliency: N/A
+
+---
+
+## NFR Design Approved → Infrastructure Design (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:56:30Z
+**User Input**: "Continuar para o Próximo Estágio "
+**AI Response**: NFR Design APPROVED. Iniciado Infrastructure Design: plano + questions Q1–Q7 (compose raiz, comando celery concurrency, volume ro/rw, CACHE_URL, sem portas, logs, depends_on). Aguardando respostas.
+**Context**: CONSTRUCTION — Infrastructure Design unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:56:30Z
+**Prompt**: Responder unit-worker-validacao-infrastructure-design-questions.md (Q1–Q7)
+
+---
+
+## Infrastructure Design — Answers + Artifacts (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:58:30Z
+**User Input**: "respondido"
+**AI Response**: Respostas Q1–Q7=A. Gerados infrastructure-design.md, deployment-architecture.md; shared-infrastructure.md atualizado (worker real + CACHE_URL). PORTÃO → Code Generation.
+**Context**: CONSTRUCTION — Infrastructure Design unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:59:00Z
+**Prompt**: Solicitar Alterações / Continuar para Geração de Código
+
+### Extension Compliance
+- Security/Resiliency/PBT: N/A neste estágio
+
+---
+
+## Infrastructure Design Approved → Code Generation Planning (unit-worker-validacao)
+**Timestamp**: 2026-08-12T03:59:30Z
+**User Input**: "Continuar para o Próximo Estágio"
+**AI Response**: Infra APPROVED. Criado unit-worker-validacao-code-generation-plan.md (11 etapas: worker + validadores libs P-VAL + compose). PORTÃO: aprovação do plano antes de gerar código.
+**Context**: CONSTRUCTION — Code Generation Part 1 unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:59:30Z
+**Prompt**: Aprovar plano de geração de código unit-worker-validacao / Solicitar Alterações
+
+---
+
+## Code Generation — Plan Approved & Executed (unit-worker-validacao)
+**Timestamp**: 2026-08-12T04:00:30Z
+**User Input**: "Aprovar plano de geração de código"
+**AI Response**: Plano aprovado. Gerados lote-worker + validadores PBT em libs + compose worker real. pytest: 30 passed. PORTÃO aprovação do codigo → Build and Test.
+**Context**: CONSTRUCTION — Code Generation Part 2 unit-worker-validacao
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:05:00Z
+**Prompt**: Solicitar Alterações / Continuar para Build and Test
+
+### Extension Compliance
+- PBT: Compliant (P-VAL testes)
+- Security/Resiliency: N/A
+
+---
+
+## Smoke test E2E documentation (API + worker)
+**Timestamp**: 2026-08-12T04:09:30Z
+**User Input**: "documente esse teste"
+**AI Response**: Atualizado docs/smoke-test-api.md com ciclo completo observado (POST PENDENTE → worker CONCLUIDO; GET lote 2 com 4/4/0; nota de task zumbi + FLUSHDB Valkey DB0).
+**Context**: CONSTRUCTION — unit-worker-validacao — documentação smoke E2E pós-validação manual
+
+---

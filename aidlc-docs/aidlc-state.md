@@ -4,12 +4,12 @@
 - **Project Name**: Serviço de Ingestão de Clientes (lote-clientes)
 - **Project Type**: Greenfield
 - **Start Date**: 2026-08-12T01:16:00Z
-- **Current Stage**: CONSTRUCTION — Code Generation (unit-dominio-api) — aguardando aprovação do codigo
+- **Current Stage**: CONSTRUCTION — Code Generation (unit-worker-validacao) — aguardando aprovação do codigo
 - **Language**: pt-BR
 - **Delivery Scope**: Fase 1 — MVP local (docker-compose)
 
 ## Workspace State
-- **Existing Code**: No
+- **Existing Code**: Yes (unit-dominio-api gerada)
 - **Reverse Engineering Needed**: No
 - **Workspace Root**: `c:\welligton-aws\ia-dlc-lote-clientes-aws`
 - **Source Document**: `aidlc-docs/inception/requirements/PRD-ingestao-clientes.md`
@@ -51,18 +51,22 @@
 - [x] NFR Requirements — APPROVED
 - [x] NFR Design — APPROVED
 - [x] Infrastructure Design — APPROVED
-- [x] Code Generation — codigo gerado (pendente aprovação)
+- [x] Code Generation — APPROVED (commit 3af234b)
 #### unit-worker-validacao
-- [ ] (após aprovação da unit-dominio-api)
-- [ ] Build and Test — EXECUTE (após todas as unidades)
+- [x] Functional Design — APPROVED
+- [x] NFR Requirements — APPROVED
+- [x] NFR Design — APPROVED
+- [x] Infrastructure Design — APPROVED
+- [x] Code Generation — codigo gerado (pendente aprovação)
+- [ ] Build and Test — EXECUTE (após aprovação desta unidade)
 
 ### 🟡 OPERATIONS PHASE
 - [ ] Operations — PLACEHOLDER
 
 ## Current Status
 - **Lifecycle Phase**: CONSTRUCTION
-- **Current Unit**: unit-dominio-api
+- **Current Unit**: unit-worker-validacao
 - **Current Stage**: Code Generation — aguardando aprovação
-- **Next Stage**: unit-worker-validacao (Functional Design) OU Build and Test se pular worker loop parcial
+- **Next Stage**: Build and Test (após aprovação do codigo)
 - **Status**: Waiting for user approval of generated code
-- **Tests**: 15 passed
+- **Tests**: 30 passed

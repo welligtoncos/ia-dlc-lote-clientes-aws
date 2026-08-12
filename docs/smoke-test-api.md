@@ -1,77 +1,113 @@
-# Smoke test — unit-dominio-api (MVP local)
+# Smoke test — ingestão de clientes (MVP local)
 
-Guia manual para validar a API com Docker Compose **antes** do worker existir.
+Guia manual para validar API + worker com Docker Compose.
 
 ## Pré-requisitos
 
 ```bash
-docker compose up -d --build mysql valkey api
+docker compose up -d --build
 curl http://localhost:8000/health
 ```
 
 Arquivo de fixture: `fixtures/clientes.csv`  
-(cabeçalho `nome,email,cpf,telefone`, UTF-8, separador `,`)
+(cabeçalho `nome,email,cpf,telefone`, UTF-8, separador `,`; CPFs com 11 dígitos e DV válido)
 
-## Passos executados (2026-08-12)
+---
 
-### 1. Upload CSV → `202` / corpo com lote PENDENTE
+## Passos executados (2026-08-12) — ciclo completo
+
+### 1. Upload CSV → `PENDENTE`
 
 ```bash
 curl -X POST http://localhost:8000/lotes -F "arquivo=@fixtures/clientes.csv"
 ```
 
+**Resposta observada (exemplo lote 4):**
+
+```json
+{"lote_id":4,"task_id":"b5b7cfd8-dd7c-4563-bee1-3fd8566382f9","status":"PENDENTE"}
+```
+
+### 2. Worker processa → `CONCLUIDO`
+
+```bash
+docker compose logs -f worker
+```
+
+**Logs observados (lote 5 — fila limpa):**
+
+```text
+Task ingerir_clientes[2897deac-...] received
+{"mensagem":"inicio processamento","lote_id":5,"tentativa":1,...}
+{"mensagem":"fim processamento","lote_id":5,"status_final":"CONCLUIDO",...}
+Task ... succeeded in ~0.06s: 'CONCLUIDO'
+```
+
+### 3. Consultar lote
+
+```bash
+curl http://localhost:8000/lotes/2
+```
+
 **Resposta observada:**
 
 ```json
-{"lote_id":1,"task_id":"671e84d7-64fc-445c-bd44-9fbc9464d694","status":"PENDENTE"}
+{
+  "lote_id": 2,
+  "nome_arquivo": "clientes.csv",
+  "status": "CONCLUIDO",
+  "total_linhas": 4,
+  "linhas_validas": 4,
+  "linhas_invalidas": 0,
+  "criado_em": "2026-08-12T04:05:53",
+  "erro": null
+}
 ```
 
-| Campo | Esperado |
+| Campo | Esperado / observado |
 |---|---|
-| `lote_id` | ID numérico do lote |
-| `task_id` | UUID da task Celery (enqueue no Valkey OK) |
-| `status` | `PENDENTE` |
+| `status` | `CONCLUIDO` |
+| `total_linhas` | 4 (fixture) |
+| `linhas_validas` | 4 |
+| `linhas_invalidas` | 0 |
 
-### 2. Listar lotes
+### 4. Listar / remover (opcional)
 
 ```bash
 curl http://localhost:8000/lotes
+curl -X DELETE http://localhost:8000/lotes/{id}
 ```
 
-**Resposta observada:**
+---
 
-```json
-[{"lote_id":1,"nome_arquivo":"clientes.csv","status":"PENDENTE","total_linhas":0,"linhas_validas":0,"linhas_invalidas":0,"criado_em":"2026-08-12T03:42:09","erro":null}]
+## Lição: task “zumbi” na fila
+
+Se um upload foi feito **antes** do worker existir (ou o lote foi `DELETE` depois), a mensagem permanece no Valkey. Ao subir o worker aparece:
+
+```text
+ErroRetentavel('lote N nao encontrado') → RETRY 60s / 120s / 240s
 ```
 
-Contagens em `0` são esperadas: o worker ainda não processa o CSV.
-
-### 3. Consultar por ID
+Isso **não** invalida o teste do lote novo. Para limpar a fila:
 
 ```bash
-curl http://localhost:8000/lotes/1
+docker compose exec valkey valkey-cli -n 0 FLUSHDB
+docker compose restart worker
 ```
 
-**Resposta observada:** mesmo payload do item na lista (status `PENDENTE`).
+Após o flush, um novo POST (ex.: lote 5) deve aparecer sozinho nos logs, sem retries de lotes antigos.
 
-### 4. Remover registro (arquivo permanece no volume)
+---
 
-```bash
-curl -X DELETE http://localhost:8000/lotes/1
-```
+## Observações
 
-Após o delete, `GET /lotes/1` deve retornar `404`.
-
-## Limitações deste ciclo
-
-- Não há consumidor Celery (`unit-worker-validacao` ainda não implementada).
-- Status **não** avança para `PROCESSADO` / `ERRO`.
-- `PUT` reprocessar só se aplica a lotes em `ERRO` — não testável até o worker existir.
+- CPF com máscara (`529.982.247-25`) conta como **inválido**; use só dígitos.
 - Docs interativas: http://localhost:8000/docs
+- Sem Flower/Prometheus neste ciclo.
 
-## Testes automatizados (complementar)
+## Testes automatizados
 
 ```bash
-pip install -e ./libs -e "./api[dev]"
-pytest libs/tests api/tests -v
+pip install -e ./libs -e "./api[dev]" -e "./worker[dev]"
+pytest libs/tests api/tests worker/tests -v --import-mode=importlib
 ```
