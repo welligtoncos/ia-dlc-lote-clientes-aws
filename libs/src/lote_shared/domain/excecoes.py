@@ -43,3 +43,13 @@ class TarefaNaoPermitida(ErroDominioLote):
     def __init__(self, nome_tarefa: str) -> None:
         self.nome_tarefa = nome_tarefa
         super().__init__(f"Tarefa nao permitida: {nome_tarefa}")
+
+
+class ErroArmazenamento(ErroDominioLote):
+    """Falha de I/O ou configuracao do armazenamento."""
+
+
+class ObjetoNaoEncontrado(ErroDominioLote):
+    def __init__(self, ref: str) -> None:
+        self.ref = ref
+        super().__init__(f"Objeto de armazenamento nao encontrado: {ref}")

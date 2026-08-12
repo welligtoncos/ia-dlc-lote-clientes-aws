@@ -40,12 +40,15 @@ class ArmazenamentoMemoria:
         self.arquivos: dict[str, bytes] = {}
 
     def salvar(self, nome_destino: str, conteudo: bytes) -> str:
-        caminho = f"/tmp/{nome_destino}"
+        caminho = f"lotes/{nome_destino}"
         self.arquivos[caminho] = conteudo
         return caminho
 
     def existe(self, caminho: str) -> bool:
         return caminho in self.arquivos
+
+    def abrir(self, caminho: str) -> bytes:
+        return self.arquivos[caminho]
 
 
 class TarefasOk:

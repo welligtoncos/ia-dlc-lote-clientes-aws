@@ -1,0 +1,16 @@
+# Copie para terraform.tfvars (NAO commit secrets reais)
+
+aws_region  = "us-east-1"
+name_prefix = "lote-dev"
+azs         = ["us-east-1a", "us-east-1b"]
+
+# Obrigatorio no apply
+db_password = "CHANGE_ME_STRONG_PASSWORD"
+
+# Opcional: tags de imagem ja no ECR (senao usa :latest nos repos criados)
+# api_image    = "123456789012.dkr.ecr.us-east-1.amazonaws.com/lote-dev-api:latest"
+# worker_image = "123456789012.dkr.ecr.us-east-1.amazonaws.com/lote-dev-worker:latest"
+
+# Keys app (contrato Q6 API/worker). Preferivel injetar via Secrets Manager na task def depois.
+# aws_access_key_id     = ""
+# aws_secret_access_key = ""

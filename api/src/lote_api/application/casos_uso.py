@@ -59,7 +59,7 @@ class CasoUsoIngerirClientes:
         task_id = None
         try:
             task_id = self._tarefas.executar(
-                TAREFA_INGERIR, {"lote_id": lote.id, "caminho": caminho}
+                TAREFA_INGERIR, {"lote_id": lote.id, "ref": caminho}
             )
             lote.associar_task(task_id)
             lote = self._repo.salvar(lote)
@@ -141,7 +141,7 @@ class CasoUsoReprocessarLote:
         try:
             task_id = self._tarefas.executar(
                 TAREFA_INGERIR,
-                {"lote_id": lote.id, "caminho": lote.caminho_arquivo},
+                {"lote_id": lote.id, "ref": lote.caminho_arquivo},
             )
             lote.associar_task(task_id)
             lote = self._repo.salvar(lote)

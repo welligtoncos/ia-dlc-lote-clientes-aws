@@ -22,6 +22,8 @@ class PortaArmazenamentoArquivo(Protocol):
 
     def existe(self, caminho: str) -> bool: ...
 
+    def abrir(self, caminho: str) -> bytes: ...
+
 
 @runtime_checkable
 class PortaTarefa(Protocol):

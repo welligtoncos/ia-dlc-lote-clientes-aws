@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 from lote_shared.domain.lote import Lote
 from lote_shared.domain.status_lote import StatusLote
 from lote_shared.persistence.lote_repo import LoteRepositorio
@@ -9,7 +11,8 @@ from lote_worker.infrastructure.cache_invalidator import CacheInvalidator
 from lote_worker.infrastructure.leitor_csv import (
     ArquivoAusente,
     CabecalhoInvalido,
-    ler_csv_clientes,
+    ModoTarefaInvalido,
+    carregar_csv_clientes,
 )
 
 
@@ -22,9 +25,11 @@ class ProcessadorLote:
         self,
         repo: LoteRepositorio,
         cache: CacheInvalidator | None = None,
+        settings: Any | None = None,
     ) -> None:
         self._repo = repo
         self._cache = cache
+        self._settings = settings
 
     def eh_noop_idempotente(self, lote: Lote, task_id: str | None) -> bool:
         return (
@@ -33,7 +38,16 @@ class ProcessadorLote:
             and lote.celery_task_id == task_id
         )
 
-    def processar(self, lote_id: int, caminho: str, task_id: str | None) -> str:
+    def processar(
+        self,
+        lote_id: int,
+        task_id: str | None,
+        *,
+        caminho: str | None = None,
+        bucket: str | None = None,
+        chave: str | None = None,
+        armazenamento: Any | None = None,
+    ) -> str:
         lote = self._repo.obter_por_id(lote_id)
         if lote is None:
             raise ErroRetentavel(f"lote {lote_id} nao encontrado")
@@ -42,8 +56,14 @@ class ProcessadorLote:
             return "NOOP"
 
         try:
-            resultado = ler_csv_clientes(caminho)
-        except ArquivoAusente as exc:
+            resultado = carregar_csv_clientes(
+                caminho=caminho,
+                bucket=bucket,
+                chave=chave,
+                settings=self._settings,
+                armazenamento=armazenamento,
+            )
+        except (ArquivoAusente, ModoTarefaInvalido) as exc:
             raise ErroRetentavel(str(exc)) from exc
         except CabecalhoInvalido as exc:
             raise ErroRetentavel(str(exc)) from exc

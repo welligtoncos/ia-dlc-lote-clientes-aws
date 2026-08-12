@@ -32,10 +32,12 @@ services:
       DATABASE_URL: mysql+pymysql://lote:lote@mysql:3306/lote
       CELERY_BROKER_URL: redis://valkey:6379/0
       CACHE_URL: redis://valkey:6379/1
-      STORAGE_PATH: /data/lotes
+      STORAGE_BACKEND: fs
+      STORAGE_LOCAL_DIR: /data
+      STORAGE_PATH: /data
       LOG_LEVEL: INFO
     volumes:
-      - lotes_files:/data/lotes
+      - lotes_files:/data
     depends_on:
       mysql:
         condition: service_healthy
@@ -51,10 +53,12 @@ services:
       DATABASE_URL: mysql+pymysql://lote:lote@mysql:3306/lote
       CELERY_BROKER_URL: redis://valkey:6379/0
       CACHE_URL: redis://valkey:6379/1
-      STORAGE_PATH: /data/lotes
+      STORAGE_BACKEND: fs
+      STORAGE_LOCAL_DIR: /data
+      STORAGE_PATH: /data
       LOG_LEVEL: INFO
     volumes:
-      - lotes_files:/data/lotes
+      - lotes_files:/data
     depends_on:
       mysql:
         condition: service_healthy

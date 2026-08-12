@@ -1,0 +1,46 @@
+# Publica lote-shared (esqueleto CodeArtifact)
+# Preencha secrets/vars: AWS_REGION, CODEARTIFACT_DOMAIN, CODEARTIFACT_REPO, role OIDC.
+name: publish-lote-shared
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "lote-shared-v*"
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        working-directory: libs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install -U pip
+          pip install -e ".[dev]"
+      - name: Test
+        run: pytest -q
+      # - name: Configure AWS (OIDC)
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+      #     aws-region: ${{ vars.AWS_REGION }}
+      # - name: Publish to CodeArtifact
+      #   run: |
+      #     aws codeartifact login --tool twine \
+      #       --domain ${{ vars.CODEARTIFACT_DOMAIN }} \
+      #       --repository ${{ vars.CODEARTIFACT_REPO }} \
+      #       --region ${{ vars.AWS_REGION }}
+      #     pip install build twine
+      #     python -m build
+      #     twine upload --repository codeartifact dist/*
+      - name: Publish placeholder
+        run: echo "Configure CodeArtifact steps above before enabling publish"

@@ -2,33 +2,20 @@
 
 ## Project Information
 - **Project Name**: Serviço de Ingestão de Clientes — **Fase 2 Migração AWS**
-- **Project Type**: Brownfield
-- **Current Stage**: INCEPTION — Units Generation — **aguardando aprovação**
+- **Current Stage**: CONSTRUCTION — `unit-infra-aws` — Code Generation (aguardando aprovação do código)
 - **Language**: pt-BR
 
-## Extension Configuration
-| Extension | Enabled |
-|---|---|
-| Security Baseline | Yes |
-| Resiliency Baseline | Yes |
-| Property-Based Testing | Yes (full) |
+## Stage Progress — Construction
 
-## Stage Progress — Fase 2
-
-### INCEPTION PHASE
-- [x] Workspace Detection
-- [x] Reverse Engineering — APPROVED
-- [x] Requirements Analysis — APPROVED
-- [x] User Stories — APPROVED
-- [x] Workflow Planning — APPROVED
-- [x] Application Design — APPROVED
-- [x] Units Generation — gerado; **aguardando aprovação**
-
-### CONSTRUCTION PHASE (após aprovação das unidades)
-- [ ] Loop por unidade (ordem): libs-storage → api-cloud → worker-s3 → infra-aws
-- [ ] Functional Design / NFR / Infra Design / Code / Build-Test conforme execution plan
+### unit-libs-storage · unit-api-cloud · unit-worker-s3 — APPROVED
+### unit-infra-aws (4/4)
+- [x] Functional Design — APPROVED
+- [x] NFR Requirements — APPROVED
+- [x] NFR Design — APPROVED
+- [x] Infrastructure Design — APPROVED
+- [x] Code Generation — executada (aguardando aprovação)
 
 ## Current Status
-- **Units**: aidlc-docs/inception/application-design/fase2-aws-unit-of-work*.md
-- **Answers**: Q1–Q9 = A
-- **Next (após aprovação)**: FASE DE CONSTRUCTION — iniciar `unit-libs-storage`
+- **Code**: infra/terraform · .github/workflows/deploy-dev.yml · infra/docs
+- **Docs**: aidlc-docs/construction/unit-infra-aws/code/
+- **Next**: Aprovar código → **Build e Testes** (todas as units)

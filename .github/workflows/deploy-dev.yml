@@ -1,0 +1,81 @@
+name: deploy-dev
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api/**"
+      - "worker/**"
+      - "libs/**"
+      - "infra/terraform/**"
+      - ".github/workflows/deploy-dev.yml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  TF_DIR: infra/terraform/envs/dev
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.meta.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: echo "sha=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+        id: ecr
+      - name: Build and push api
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          TAG: ${{ steps.meta.outputs.sha }}
+        run: |
+          docker build -f api/Dockerfile -t "$REGISTRY/lote-dev-api:$TAG" .
+          docker push "$REGISTRY/lote-dev-api:$TAG" || echo "Push api falhou — rode terraform apply primeiro para criar ECR"
+      - name: Build and push worker
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          TAG: ${{ steps.meta.outputs.sha }}
+        run: |
+          docker build -f worker/Dockerfile -t "$REGISTRY/lote-dev-worker:$TAG" .
+          docker push "$REGISTRY/lote-dev-worker:$TAG" || echo "Push worker falhou — rode terraform apply primeiro"
+
+  terraform-apply:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TF_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.7"
+      - name: Terraform init
+        run: terraform init -input=false
+      - name: Terraform apply
+        env:
+          TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
+          TF_VAR_aws_access_key_id: ${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}
+          TF_VAR_aws_secret_access_key: ${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}
+        run: |
+          ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+          TAG="${{ needs.build-and-push.outputs.image_tag }}"
+          export TF_VAR_api_image="$ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/lote-dev-api:$TAG"
+          export TF_VAR_worker_image="$ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/lote-dev-worker:$TAG"
+          terraform apply -auto-approve -input=false
