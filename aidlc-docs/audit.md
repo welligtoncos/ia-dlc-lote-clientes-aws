@@ -505,3 +505,36 @@
 **Context**: CONSTRUCTION — unit-worker-validacao — documentação smoke E2E pós-validação manual
 
 ---
+
+## Commit + push (unit-worker-validacao)
+**Timestamp**: 2026-08-12T04:10:30Z
+**User Input**: "comentario detalhado e push"
+**AI Response**: Commit d747ee2 feat(construction) unit-worker-validacao; push origin/main.
+**Context**: CONSTRUCTION — unit-worker code + docs
+
+---
+
+## Code Generation Approved → Build and Test
+**Timestamp**: 2026-08-12T04:11:30Z
+**User Input**: "Continuar para o Próximo Estágio"
+**AI Response**: Code Generation worker APPROVED. Gerados build-and-test/* (build, unit, integration, performance, e2e, summary). pytest 30 passed. PORTÃO aprovação → Operations (placeholder).
+**Context**: CONSTRUCTION — Build and Test
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:12:00Z
+**Prompt**: Solicitar Alterações / Aprovar e Continuar para Operations
+
+### Extension Compliance
+- PBT: Compliant (unit tests)
+- Security: N/A (disabled) — sem security-test-instructions
+- Resiliency: N/A
+
+---
+
+## Build and Test Approved → Operations Placeholder
+**Timestamp**: 2026-08-12T04:12:30Z
+**User Input**: "Aprovar e Continuar"
+**AI Response**: Build and Test APPROVED. Construction COMPLETED. Operations registrado como PLACEHOLDER (aidlc-docs/operations/operations-placeholder.md). MVP local operacional; AWS não provisionada neste ciclo. Workflow AI-DLC Fase 1 encerrado após Construction.
+**Context**: OPERATIONS — placeholder; fim do ciclo Construction
+
+---
