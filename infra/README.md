@@ -1,18 +1,18 @@
-# Esboco AWS (NAO aplicar neste ciclo)
+# Evolução AWS (Fase 2) — esboço
 
-## Mapeamento futuro
-| Local | AWS |
+**Status**: decisões de produto sinalizadas; IaC ainda não aplicada  
+**Inception AI-DLC**: em andamento (Reverse Engineering concluída — aguardando aprovação)
+
+## Decisões sinalizadas
+| Tema | Escolha |
 |---|---|
-| api container | ECS Fargate |
-| api image | ECR |
-| mysql | RDS MySQL |
-| valkey | ElastiCache Valkey |
-| lotes_files | EFS (ou S3 na evolucao) |
-| :8000 | ALB; API Gateway opcional |
+| IaC | Terraform |
+| Banco | RDS MySQL |
+| Borda HTTP | API Gateway → ALB → ECS API |
+| Arquivos | S3 |
+| Compute | ECS Fargate (api + worker) + ECR |
+| Fila/cache | ElastiCache Valkey/Redis |
 
-## Proximos passos (Fase 2)
-1. Criar modulo Terraform ou app AWS Copilot.
-2. Injetar secrets via Secrets Manager.
-3. Task roles IAM para ECR/logs/secrets.
+Detalhamento as-is do sistema: `aidlc-docs/inception/reverse-engineering/`.
 
-Nenhuma infra AWS e provisionada pelo MVP local.
+Nenhuma infra AWS provisionada ainda.

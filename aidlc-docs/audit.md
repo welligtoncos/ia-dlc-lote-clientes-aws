@@ -546,3 +546,171 @@
 **Context**: docs — diagrama execução ingerir_clientes
 
 ---
+
+## AWS Fase 2 — RDS + API Gateway
+**Timestamp**: 2026-08-12T04:29:30Z
+**User Input**: "quero usar RDS e API Gateway"
+**AI Response**: Atualizado infra/README.md com arquitetura Fase 2 (API Gateway→ALB→ECS API; RDS MySQL; worker ECS; ElastiCache; EFS default). operations-placeholder.md marca RDS e API Gateway como decididos. Sem provisionamento neste passo.
+**Context**: OPERATIONS / infra esboço — decisões AWS
+
+---
+
+## AWS Fase 2 — Terraform + S3
+**Timestamp**: 2026-08-12T04:32:30Z
+**User Input**: "Terraform ,  S3  "
+**AI Response**: Decisões IaC=Terraform e arquivos=S3. infra/README.md e operations-placeholder atualizados; impacto no adapter (sair do volume local); estrutura sugerida infra/terraform/ sem criar apply.
+**Context**: OPERATIONS / infra esboço — Terraform + S3
+
+---
+
+## IAM permissions script
+**Timestamp**: 2026-08-12T04:34:30Z
+**User Input**: "quero q crie um script de politica para subir corretamente todas permisções é possivel? "
+**AI Response**: Sim. Criados infra/iam/policies (execution, api, worker, terraform-deployer), trust policies, scripts setup-iam-permissions.ps1/.sh e iam/README.md. RDS/ElastiCache via SG, nao IAM.
+**Context**: infra IAM bootstrap
+
+---
+
+## Fase 2 Inception — Workspace Detection + Reverse Engineering
+**Timestamp**: 2026-08-12T04:36:00Z
+**User Input**: "crie o inception dessa migração para aws"
+**AI Response**: Novo ciclo Fase 2 (brownfield). Welcome AI-DLC. Workspace Detection: monorepo api/worker/libs + compose. Reverse Engineering gerada em aidlc-docs/inception/reverse-engineering/. PORTÃO aprovação RE → Análise de Requisitos (migração AWS: Terraform, RDS, API GW, S3).
+**Context**: INCEPTION Fase 2 — RE awaiting approval
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:37:00Z
+**Prompt**: Solicitar Alterações / Aprovar e Continuar para Análise de Requisitos
+
+---
+
+## Reverse Engineering Approved → Requirements Analysis (Fase 2 AWS)
+**Timestamp**: 2026-08-12T04:38:30Z
+**User Input**: "Aprovar e Continuar"
+**AI Response**: RE APPROVED. Iniciada Análise de Requisitos Fase 2: intent-analysis + fase2-aws-requirement-verification-questions.md (Q1–Q13 incl. extensões Security/Resiliency/PBT). Aguardando respostas. NÃO gerar requirements.md até portão.
+**Context**: INCEPTION Fase 2 — Requirements Analysis
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:38:30Z
+**Prompt**: Responder fase2-aws-requirement-verification-questions.md (Q1–Q13)
+
+---
+
+## Requirements Fase 2 — Answers + Resiliency follow-up
+**Timestamp**: 2026-08-12T04:43:30Z
+**User Input**: "respondida"
+**AI Response**: Q1–Q4=A, Q5=B (API Key), Q6–Q8=A, Q9=B (dump/restore), Q10=B (GHA apply auto), Q11–Q13=A (Security+Resiliency+PBT ON). Draft fase2-aws-requirements.md gerado. PORTÃO parcial: RESILIENCY-02 exige CQ1–CQ3 (RTO/RPO, criticidade, topologia) antes de aprovação final dos requisitos.
+**Context**: INCEPTION Fase 2 — Requirements Analysis clarifications
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:44:00Z
+**Prompt**: Responder fase2-aws-resiliency-clarification-questions.md (CQ1–CQ3)
+
+---
+
+## Requirements Fase 2 — Resiliency CQ1–CQ3
+**Timestamp**: 2026-08-12T04:45:30Z
+**User Input**: "respondido"
+**AI Response**: CQ1=A (best-effort Backup&Restore), CQ2=A (Low), CQ3=A (single-region/single-AZ). Requisitos atualizados (RNF-AWS-13..15). PORTÃO parcial: CQ4 RESILIENCY-03 (change management) obrigatória antes da aprovação final.
+**Context**: INCEPTION Fase 2 — Requirements Analysis
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:46:00Z
+**Prompt**: Responder CQ4 em fase2-aws-resiliency-clarification-questions.md
+
+---
+
+## Requirements Fase 2 — CQ4 + documento final
+**Timestamp**: 2026-08-12T04:47:30Z
+**User Input**: "respondido"
+**AI Response**: CQ4=B (change management leve PR/GHA + rollback note). fase2-aws-requirements.md finalizado (RNF-AWS-16 + conformidade Resiliency). PORTÃO: Aprovar requisitos → User Stories.
+**Context**: INCEPTION Fase 2 — Requirements Analysis complete pending approval
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:48:00Z
+**Prompt**: Solicitar Alterações / Aprovar e Continuar para Histórias de Usuário (fase2-aws-requirements.md)
+
+---
+
+## Requirements Approved → User Stories (Fase 2)
+**Timestamp**: 2026-08-12T04:48:30Z
+**User Input**: "Aprovar e Continua"
+**AI Response**: Requisitos Fase 2 APPROVED. Assessment EXECUTE=Yes. Criados fase2-aws-user-stories-assessment.md + fase2-aws-story-generation-plan.md (Q1–Q9). Aguardando respostas no plano antes da geração.
+**Context**: INCEPTION Fase 2 — User Stories Part 1 Planning
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:49:00Z
+**Prompt**: Responder Q1–Q9 em aidlc-docs/inception/plans/fase2-aws-story-generation-plan.md
+
+---
+
+## User Stories Fase 2 — Plan answers + Generation
+**Timestamp**: 2026-08-12T04:51:30Z
+**User Input**: "respondido"
+**AI Response**: Q1=A Q2=B Q3=C Q4=A Q5=A Q6=A Q7=A Q8=A Q9=A — sem ambiguidades. Gerados fase2-aws-personas.md (P5+) e fase2-aws-stories.md (US-AWS-01..08 Must). PORTÃO aprovação → Workflow Planning.
+**Context**: INCEPTION Fase 2 — User Stories Part 2 complete pending approval
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:52:00Z
+**Prompt**: Solicitar Alterações / Aprovar e Continuar para Planejamento do Workflow (fase2-aws-stories.md / fase2-aws-personas.md)
+
+---
+
+## User Stories Approved → Workflow Planning (Fase 2)
+**Timestamp**: 2026-08-12T04:52:30Z
+**User Input**: "Aprovar e Continuar"
+**AI Response**: Histórias APPROVED. Gerado fase2-aws-execution-plan.md: AD/UG/FD/NFR/ID/CG/BT EXECUTE; Ops PLACEHOLDER; sequência libs→api+worker→terraform→GHA. PORTÃO aprovação do plano.
+**Context**: INCEPTION Fase 2 — Workflow Planning
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:53:30Z
+**Prompt**: Solicitar Alterações / Adicionar Estágios Pulados / Aprovar e Continuar para Application Design (fase2-aws-execution-plan.md)
+
+---
+
+## Workflow Planning Approved → Application Design (Fase 2)
+**Timestamp**: 2026-08-12T04:54:30Z
+**User Input**: "Aprovar e Continuar"
+**AI Response**: Execution plan APPROVED. Criado fase2-aws-application-design-plan.md (Q1–Q7). Aguardando respostas antes de gerar artefatos.
+**Context**: INCEPTION Fase 2 — Application Design Part 1 Planning
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:55:00Z
+**Prompt**: Responder Q1–Q7 em aidlc-docs/inception/plans/fase2-aws-application-design-plan.md
+
+---
+
+## Application Design Fase 2 — Answers + Artifacts
+**Timestamp**: 2026-08-12T04:56:30Z
+**User Input**: "respondido"
+**AI Response**: Q1–Q7=A. Gerados fase2-aws-components/methods/services/dependency/application-design.md. Hexagonal preservado; S3+factory em libs; kwargs traduzidos na infra; API Key só Gateway. PORTÃO → Units Generation.
+**Context**: INCEPTION Fase 2 — Application Design complete pending approval
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:57:00Z
+**Prompt**: Solicitar Alterações / Aprovar e Continuar para Geração de Unidades (fase2-aws-application-design/)
+
+---
+
+## Application Design Approved → Units Generation (Fase 2)
+**Timestamp**: 2026-08-12T04:58:30Z
+**User Input**: "Aprovar e Continuar"
+**AI Response**: Application Design APPROVED. Criado fase2-aws-unit-of-work-plan.md (Q1–Q9). Aguardando respostas antes da geração.
+**Context**: INCEPTION Fase 2 — Units Generation Part 1
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T04:59:00Z
+**Prompt**: Responder Q1–Q9 em aidlc-docs/inception/plans/fase2-aws-unit-of-work-plan.md
+
+---
+
+## Units Generation Fase 2 — Answers + Artifacts
+**Timestamp**: 2026-08-12T05:00:30Z
+**User Input**: "respondido"
+**AI Response**: Q1–Q9=A. Gerados fase2-aws-unit-of-work.md (+ dependency + story-map). 4 unidades: libs-storage, api-cloud, worker-s3, infra-aws. Ordem Construction libs→api→worker→infra. PORTÃO → CONSTRUCTION.
+**Context**: INCEPTION Fase 2 — Units Generation complete pending approval
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T05:01:00Z
+**Prompt**: Solicitar Alterações / Aprovar e Continuar para FASE DE CONSTRUCTION (unit-libs-storage)
+
+---
