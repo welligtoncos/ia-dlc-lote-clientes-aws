@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lote-api"
+version = "0.1.0"
+description = "API FastAPI de ingestao de lotes de clientes"
+requires-python = ">=3.12"
+dependencies = [
+  "lote-shared",
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.30",
+  "pydantic>=2.0",
+  "pydantic-settings>=2.0",
+  "python-multipart>=0.0.9",
+  "celery[redis]>=5.4",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+lote-shared = { path = "../libs", editable = true }
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "httpx>=0.27", "hypothesis>=6.100"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "../libs/src"]
+testpaths = ["tests"]

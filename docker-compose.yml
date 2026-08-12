@@ -1,0 +1,53 @@
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: lote
+      MYSQL_USER: lote
+      MYSQL_PASSWORD: lote
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./migrations/001_lotes.sql:/docker-entrypoint-initdb.d/001_lotes.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ulote", "-plote"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  valkey:
+    image: valkey/valkey:8
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: mysql+pymysql://lote:lote@mysql:3306/lote
+      CELERY_BROKER_URL: redis://valkey:6379/0
+      CACHE_URL: redis://valkey:6379/1
+      STORAGE_PATH: /data/lotes
+      LOG_LEVEL: INFO
+    volumes:
+      - lotes_files:/data/lotes
+    depends_on:
+      mysql:
+        condition: service_healthy
+      valkey:
+        condition: service_started
+
+  # Placeholder — implementacao completa na unit-worker-validacao
+  worker:
+    image: valkey/valkey:8
+    profiles: ["worker-real"]
+    command: ["echo", "substituir pelo lote-worker"]
+
+volumes:
+  mysql_data:
+  lotes_files:

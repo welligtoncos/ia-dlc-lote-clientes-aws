@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lote-shared"
+version = "0.1.0"
+description = "Dominio, portas, persistence e validacao compartilhada"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "sqlalchemy>=2.0",
+  "pymysql>=1.1",
+  "redis>=5.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "hypothesis>=6.100"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

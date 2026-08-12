@@ -214,3 +214,139 @@
 **Context**: INCEPTION closed → CONSTRUCTION ready
 
 ---
+
+## Construction Started — Functional Design (unit-dominio-api)
+**Timestamp**: 2026-08-12T02:56:33Z
+**User Input**: "sim"
+**AI Response**: Iniciado Functional Design de unit-dominio-api. Criado unit-dominio-api-functional-design-plan.md com 8 perguntas. PORTÃO: aguardando respostas.
+**Context**: CONSTRUCTION — Functional Design Part 1 Planning
+
+---
+
+## Functional Design — Answers & Artifacts (unit-dominio-api)
+**Timestamp**: 2026-08-12T02:59:55Z
+**User Input**: "respondido"
+**AI Response**: Respostas Q1–Q8=A validadas. Gerados business-logic-model.md, business-rules.md, domain-entities.md com PBT-01 (P-API-01..04). Validadores de linha adiados à unit-worker. PORTÃO de aprovação apresentado.
+**Context**: CONSTRUCTION — Functional Design unit-dominio-api
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T02:59:55Z
+**Prompt**: Solicitar Alterações / Continuar para NFR Requirements
+
+### Extension Compliance
+- PBT-01: Compliant
+- Security/Resiliency: N/A (disabled)
+
+---
+
+## Functional Design — Approved (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:02:45Z
+**User Input**: "Continuar para o Próximo Estágio "
+**AI Response**: FD aprovado. Iniciado NFR Requirements. Criado unit-dominio-api-nfr-requirements-plan.md com 8 perguntas. PORTÃO: aguardando respostas.
+**Context**: CONSTRUCTION — NFR Requirements Planning
+
+---
+
+## NFR Requirements — Answers & Artifacts (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:08:05Z
+**User Input**: "respondido"
+**AI Response**: Respostas validadas (Q7=B enqueue tolerante a falha do broker). Gerados nfr-requirements.md e tech-stack-decisions.md. PORTÃO de aprovação → NFR Design.
+**Context**: CONSTRUCTION — NFR Requirements unit-dominio-api
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:08:05Z
+**Prompt**: Solicitar Alterações / Continuar para NFR Design
+
+---
+
+## NFR Requirements — Approved (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:10:32Z
+**User Input**: "continuar "
+**AI Response**: NFR Requirements aprovado. Iniciado NFR Design. Criado unit-dominio-api-nfr-design-plan.md com 6 perguntas. PORTÃO: aguardando respostas.
+**Context**: CONSTRUCTION — NFR Design Planning
+
+---
+
+## NFR Design — Answers with contradiction (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:14:52Z
+**User Input**: "pronto "
+**AI Response**: Respostas Q1=A,Q2=C,Q3=A,Q4=B,Q5=A,Q6=A. Detectada tensão Q2=C (cache Valkey) vs carga <10 req/min. Clarification Question 1 adicionada. PORTÃO: aguardando esclarecimento.
+**Context**: CONSTRUCTION — NFR Design Etapa 5
+
+---
+
+## NFR Design — Clarified & Artifacts (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:15:46Z
+**User Input**: "pronto"
+**AI Response**: CQ1=A (manter cache Valkey). Gerados nfr-design-patterns.md e logical-components.md. PORTÃO de aprovação → Infrastructure Design.
+**Context**: CONSTRUCTION — NFR Design unit-dominio-api
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:15:46Z
+**Prompt**: Solicitar Alterações / Continuar para Infrastructure Design
+
+---
+
+## NFR Design — Approved (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:17:08Z
+**User Input**: "continuar "
+**AI Response**: NFR Design aprovado. Iniciado Infrastructure Design. Criado unit-dominio-api-infrastructure-design-plan.md com 7 perguntas. PORTÃO: aguardando respostas.
+**Context**: CONSTRUCTION — Infrastructure Design Planning
+
+---
+
+## Infrastructure Design — Answers with contradiction
+**Timestamp**: 2026-08-12T03:22:09Z
+**User Input**: "pronto"
+**AI Response**: Q1=B,Q2=A,Q3=A,Q4=A,Q5=A,Q6=A,Q7=C. Tensão: compose por projeto vs MySQL/volume/Valkey compartilhados. Clarification Q1 adicionada.
+**Context**: CONSTRUCTION — Infrastructure Design Etapa 5
+
+---
+
+## Infrastructure Design — Clarified & Artifacts
+**Timestamp**: 2026-08-12T03:24:34Z
+**User Input**: "pronto"
+**AI Response**: CQ1=A (compose raiz único). Gerados infrastructure-design.md, deployment-architecture.md, shared-infrastructure.md. PORTÃO → Code Generation.
+**Context**: CONSTRUCTION — Infrastructure Design unit-dominio-api
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:24:34Z
+**Prompt**: Solicitar Alterações / Continuar para Code Generation
+
+---
+
+## Infrastructure Design — Approved; Code Generation Planning
+**Timestamp**: 2026-08-12T03:27:43Z
+**User Input**: "continuar "
+**AI Response**: Infra aprovada. Criado unit-dominio-api-code-generation-plan.md (16 etapas: lote-shared + lote-api + compose). PORTÃO: aprovação do plano antes de gerar código.
+**Context**: CONSTRUCTION — Code Generation Part 1
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:27:43Z
+**Prompt**: Aprovar plano de geração de código unit-dominio-api / Solicitar Alterações
+
+---
+
+## Code Generation — Plan Approved & Executed (unit-dominio-api)
+**Timestamp**: 2026-08-12T03:31:23Z
+**User Input**: "aprovar "
+**AI Response**: Plano aprovado. Gerados lote-shared + lote-api + compose/migrations/docs. pytest: 15 passed. PORTÃO de aprovação do codigo → proxima unidade worker ou ajustes.
+**Context**: CONSTRUCTION — Code Generation Part 2 unit-dominio-api
+
+### Approval Prompt Issued
+**Timestamp**: 2026-08-12T03:36:00Z
+**Prompt**: Solicitar Alterações / Continuar para unit-worker-validacao (Functional Design)
+
+### Extension Compliance
+- PBT: Compliant (P-API-01..04 tests)
+- Security/Resiliency: N/A
+
+---
+
+## Smoke test documentation
+**Timestamp**: 2026-08-12T03:43:00Z
+**User Input**: "documente esse teste."
+**AI Response**: Criado docs/smoke-test-api.md com passos POST/GET/DELETE e respostas observadas (lote_id=1, PENDENTE). README atualizado com link e fixture fixtures/clientes.csv.
+**Context**: CONSTRUCTION — unit-dominio-api — documentação de smoke test manual pós-upload
+
+---

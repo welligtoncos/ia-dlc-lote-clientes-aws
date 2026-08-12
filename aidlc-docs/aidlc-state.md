@@ -4,7 +4,7 @@
 - **Project Name**: Serviço de Ingestão de Clientes (lote-clientes)
 - **Project Type**: Greenfield
 - **Start Date**: 2026-08-12T01:16:00Z
-- **Current Stage**: CONSTRUCTION — ready (Functional Design: unit-dominio-api)
+- **Current Stage**: CONSTRUCTION — Code Generation (unit-dominio-api) — aguardando aprovação do codigo
 - **Language**: pt-BR
 - **Delivery Scope**: Fase 1 — MVP local (docker-compose)
 
@@ -46,18 +46,23 @@
 - [x] Units Generation — EXECUTE (APPROVED)
 
 ### 🟢 CONSTRUCTION PHASE
-- [ ] Functional Design — EXECUTE (próximo: unit-dominio-api / lote-api)
-- [ ] NFR Requirements — EXECUTE
-- [ ] NFR Design — EXECUTE
-- [ ] Infrastructure Design — EXECUTE
-- [ ] Code Generation — EXECUTE
-- [ ] Build and Test — EXECUTE
+#### unit-dominio-api
+- [x] Functional Design — APPROVED
+- [x] NFR Requirements — APPROVED
+- [x] NFR Design — APPROVED
+- [x] Infrastructure Design — APPROVED
+- [x] Code Generation — codigo gerado (pendente aprovação)
+#### unit-worker-validacao
+- [ ] (após aprovação da unit-dominio-api)
+- [ ] Build and Test — EXECUTE (após todas as unidades)
 
 ### 🟡 OPERATIONS PHASE
 - [ ] Operations — PLACEHOLDER
 
 ## Current Status
 - **Lifecycle Phase**: CONSTRUCTION
-- **Current Stage**: Aguardando início — Functional Design (unit-dominio-api)
-- **Next Stage**: Functional Design for unit-dominio-api
-- **Status**: Inception closed; ready for Construction
+- **Current Unit**: unit-dominio-api
+- **Current Stage**: Code Generation — aguardando aprovação
+- **Next Stage**: unit-worker-validacao (Functional Design) OU Build and Test se pular worker loop parcial
+- **Status**: Waiting for user approval of generated code
+- **Tests**: 15 passed
